@@ -1,0 +1,32 @@
+Tango-controls Cookbook
+===================
+Install the Tango-controls 9.1.0
+
+Requirements
+------------
+omniORB-4.2.1-2
+zeromq-4.1.4
+libsodium-1.0.8
+
+
+#### recipes
+- `service` - install mysql database script and mysql service at localhost; install also the tango service.
+- `disable` - stop the tango service.
+- `database` - install mysql database script and mysql service at localhost.
+- `default` - install tango-controls software.
+
+Usage
+-----
+#### tango::service
+Just include `tango::service` in your node's `run_list`:
+
+Attributes
+==========
+
+## Default
+
+see [attributes/default.rb](attributes/default.rb)
+
+License and Authors
+-------------------
+Authors: Matteo Di Carlo

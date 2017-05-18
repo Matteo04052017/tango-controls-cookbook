@@ -1,0 +1,79 @@
+#
+# Cookbook Name:: tango
+# Recipe:: default
+#
+# Copyright (c) 2016 Matteo Di Carlo, All Rights Reserved.
+#
+
+include_recipe "python"
+
+apt_package 'libtool' do
+	:install
+end
+
+apt_package 'pkg-config' do
+	:install
+end
+
+apt_package 'build-essential' do
+	:install
+end
+
+apt_package 'autoconf' do
+	:install
+end
+
+apt_package 'automake' do
+	:install
+end
+
+apt_package 'default-jdk' do
+	:install
+end
+
+apt_package 'mysql-workbench' do
+	:install
+end
+
+apt_package 'daemon' do
+	:install
+end
+
+apt_package 'libpng-dev' do
+	:install
+end
+
+apt_package 'zlib1g-dev' do
+	:install
+end
+
+installed = false
+if File.exist?('/usr/local/include/sodium.h')
+	installed = true
+end
+if File.exist?('/usr/local/include/omniORB4/omniORB.h')
+	installed = true
+end
+if File.exist?('/usr/local/include/zmq.h')
+	installed = true
+end
+if File.exist?('/usr/local/include/tango/tango.h')
+	installed = true
+end
+
+if "#{node['tango']['install']}" == "true" || !installed
+  include_recipe 'tango::install'
+end
+
+template '/etc/environment' do
+  source 'environment.erb'
+  mode 0755
+  owner node['tango']['username']
+  group node['tango']['group'] 
+  variables(
+    :tango_host        => node['tango']['host'],
+    :tango_port        => node['tango']['port'],
+    :mysql_user        => node['tango']['db_username'],
+    :mysql_password        => node['tango']['db_password'])
+end
+

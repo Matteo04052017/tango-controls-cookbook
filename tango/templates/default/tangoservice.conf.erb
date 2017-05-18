@@ -1,0 +1,17 @@
+author "Matteo Di Carlo"
+description "start and stop tango framework with upstart"
+version "1.0"
+
+start on started networking
+stop on runlevel [!2345]
+
+env APPUSER="<%= @tango_user %>"
+env APPDIR="/usr/local/bin"
+env APPBIN="DataBaseds"
+env APPARGS="2 -ORBendPoint giop:tcp::<%= @tango_port %>"
+respawn
+
+script
+  exec su - $APPUSER -c "MYSQL_USER=<%= @mysql_user %> MYSQL_PASSWORD=<%= @mysql_password %> $APPDIR/$APPBIN $APPARGS"
+end script
+
